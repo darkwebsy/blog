@@ -4,11 +4,172 @@
     <title>S.Y ダークウェブ ブログ</title>
     <description>S.Yが運営するダークウェブ・ディープウェブ情報ブログ。 Torでアクセス可能なダークウェブ全般のことについて書いていきます。
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 19 Sep 2018 09:58:23 +0900</pubDate>
-    <lastBuildDate>Wed, 19 Sep 2018 09:58:23 +0900</lastBuildDate>
+    <link>https://darkwebsy.github.io/blog/</link>
+    <atom:link href="https://darkwebsy.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 20 Sep 2018 01:13:11 +0900</pubDate>
+    <lastBuildDate>Thu, 20 Sep 2018 01:13:11 +0900</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Tor(ディープウェブ/ダークウェブ)にブログを作成する方法</title>
+        <description>&lt;p&gt;ハロー皆さん。スカーレットです。&lt;/p&gt;
+
+&lt;p&gt;今回は皆さん知りたいだろうなーっていう、Torにブログとかウェブサイトを作成する方法を教えてあげたいと思います。&lt;/p&gt;
+
+&lt;p&gt;今この記事が書かれているこのサイトも、おそらくですが！今回ご紹介するやり方で作成されたものになっているはずです。ので！ご参照頂ければと思いますー。&lt;/p&gt;
+
+&lt;h2&gt;導入 セキュリティと匿名性の問題&lt;/h2&gt;
+
+&lt;p&gt;今回紹介する方法では、環境として、&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ubuntu 18.04&lt;/li&gt;
+&lt;li&gt;nginx&lt;/li&gt;
+&lt;li&gt;jekyll&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;をメインとして使っています。&lt;/p&gt;
+
+&lt;p&gt;何故この構成なのかというと、簡単だからです。それだけです。セキュリティ的にも、問題ありません。&lt;/p&gt;
+
+&lt;h3&gt;なぜubuntuなのか&lt;/h3&gt;
+
+&lt;p&gt;簡単だからです。&lt;/p&gt;
+
+&lt;p&gt;本音を言うと、一番安全なのはwhonixです。続いてdebianです。&lt;/p&gt;
+
+&lt;p&gt;ubuntuはインストールも簡単だし、情報も多いし、そもそもHTMLページ見せるくらいだったらあんま問題ないです。気にしなくて👍&lt;/p&gt;
+
+&lt;h3&gt;なぜnginxなのか&lt;/h3&gt;
+
+&lt;p&gt;セキュリティとかハッキング攻撃に強いからです。
+apacheじゃなくてnginxにしましょうね。&lt;/p&gt;
+
+&lt;h3&gt;なぜjekyllなのか&lt;/h3&gt;
+
+&lt;p&gt;jekyllとは、静的HTMLサイトを生成するRubyのライブラリです。&lt;/p&gt;
+
+&lt;p&gt;なぜWordPressではなく、jekyllなのか。ですが、&lt;/p&gt;
+
+&lt;p&gt;単純にWordPressは脆弱性問題が多いからです。&lt;/p&gt;
+
+&lt;p&gt;それに、動的サイトがセキュリティリスクがあるため、オススメできませんのです。&lt;/p&gt;
+
+&lt;p&gt;HTMLページをいちいちアップロードしていく方法が一番なんですね。&lt;/p&gt;
+
+&lt;h3&gt;なぜVPSや有料のサーバーを使わないのか&lt;/h3&gt;
+
+&lt;p&gt;Torのhidden serviceをホスティングしてくれるサービスはたくさんあり、それを利用しているサービスも多いですね。
+しかしそれを利用しない理由は何でしょうか。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;お金がかかる&lt;/li&gt;
+&lt;li&gt;支払いに利用するビットコインに関する幅広い知識が必要&lt;/li&gt;
+&lt;li&gt;ホスティングしているサーバーがハッキングされると自分のサイトも被害を受ける&lt;/li&gt;
+&lt;li&gt;そもそも大手のホスティングサービスが潰れたりしていて信用に値するサイトが少ない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;といったところです。&lt;/p&gt;
+
+&lt;h2&gt;本題 Ubuntu 18.04 nginx jekyllでTorにブログを作成する方法&lt;/h2&gt;
+
+&lt;p&gt;まずは。ubuntu 18.04をvirtualboxにインストールしましょうね。これは調べてね。&lt;/p&gt;
+
+&lt;p&gt;SSHで作業していくから、&lt;code&gt;sudo apt install openssh-server&lt;/code&gt;しとこうね。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://thecloud.org.uk/create-tor-hidden-service-website-ubuntu-linux/&quot;&gt;Create a Tor Website on Ubuntu – TheCloud.org.uk&lt;/a&gt;がとてもわかり易かったよ！この記事を簡潔にご紹介するね。&lt;/p&gt;
+
+&lt;p&gt;ウェブサーバーnginxの設定をするよ！&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;# インストール&lt;/span&gt;
+sudo apt install nginx
+
+&lt;span class=&quot;c&quot;&gt;# ファイルをまるごと書き換え！&lt;/span&gt;
+cat &amp;gt; /etc/nginx/sites-available/default
+server &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       listen 127.0.0.1:8080 default_server;
+       server_name localhost;
+       root /usr/share/nginx/html;
+       index index.html index.htm;
+       location / &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+               allow 127.0.0.1;
+               deny all;
+       &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;lsb_release -a&lt;/code&gt;でubuntuのバージョンを確認しよう。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Then visit this link and select your Linux version and codename from the drop down menu.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;次に、&lt;a href=&quot;https://www.torproject.org/docs/debian.html.en#ubuntu&quot;&gt;Tor Project: Debian/Ubuntu Instructions&lt;/a&gt;へ行って、バージョンごとのTorのインストール方法を確認してみよう。&lt;/p&gt;
+
+&lt;p&gt;今回は、Ubuntu 18.04の場合を紹介するよ。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ソースファイルに追記！&lt;/span&gt;
+cat &amp;gt;&amp;gt; /etc/apt/sources
+deb https://deb.torproject.org/torproject.org bionic main
+deb-src https://deb.torproject.org/torproject.org bionic main
+
+&lt;span class=&quot;c&quot;&gt;# rootで作業するよ&lt;/span&gt;
+sudo su -
+gpg2 --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+gpg2 --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+
+apt update
+apt install tor deb.torproject.org-keyring
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;torrcに追記&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;sudo nano /etc/tor/torrc
+
+HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServicePort 80 127.0.0.1:8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;最後！&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;sudo service nginx restart
+sudo service tor restart
+
+cat /var/lib/tor/hidden_service/hostname
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ドメイン名が出力されましたか？これをTorに入力してページを見てみましょう！&lt;/p&gt;
+
+&lt;p&gt;映ったよね！&lt;/p&gt;
+
+&lt;p&gt;次、jekyllいきます。&lt;/p&gt;
+
+&lt;p&gt;まずjekyllのブログ作ります。
+jekyllはまた他の、開発用の仮想環境で構築しています。こっちのほうがやりやすいからね。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;sudo apt install jekyll
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
+jekyll new www
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;www
+jekyll build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;デプロイしますね。
+開発環境から、本番環境の先ほどnginxの設定をしたubuntuにファイルをコピーします。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;rsync --rsync-path&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sudo rsync&quot;&lt;/span&gt; -av -e &lt;span class=&quot;s1&quot;&gt;&#39;ssh&#39;&lt;/span&gt; _site/ user@192.168.99.100:/usr/share/nginx/html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;では先程のonionドメインのページを更新してみましょう。&lt;/p&gt;
+
+&lt;p&gt;nginxのページから、welcomeページに変わったかな？&lt;/p&gt;
+
+&lt;p&gt;おめでとう👍これで君もダークウェブブロガーだよ。&lt;/p&gt;
+
+&lt;h2&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;今回はダークウェブにブログを作る方法を紹介しました。&lt;/p&gt;
+
+&lt;p&gt;ぜひこの記事を活用してくれれば嬉しく思います。では！！&lt;/p&gt;
+</description>
+        <pubDate>Tue, 18 Sep 2018 09:00:00 +0900</pubDate>
+        <link>https://darkwebsy.github.io/blog/blog/2018/09/18/get-started-blog-on-tor.html</link>
+        <guid isPermaLink="true">https://darkwebsy.github.io/blog/blog/2018/09/18/get-started-blog-on-tor.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
     
       <item>
         <title>ブログをはじめたよ。ご挨拶</title>
@@ -27,8 +188,8 @@
 &lt;p&gt;頑張ってブログしていきたいと思いますね。&lt;/p&gt;
 </description>
         <pubDate>Tue, 18 Sep 2018 08:00:00 +0900</pubDate>
-        <link>http://yourdomain.com/blog/2018/09/18/helloguys.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/blog/2018/09/18/helloguys.html</guid>
+        <link>https://darkwebsy.github.io/blog/blog/2018/09/18/helloguys.html</link>
+        <guid isPermaLink="true">https://darkwebsy.github.io/blog/blog/2018/09/18/helloguys.html</guid>
         
         
         <category>blog</category>
@@ -37,9 +198,9 @@
     
       <item>
         <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
 
 &lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
 
@@ -50,11 +211,10 @@
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
-
 </description>
         <pubDate>Tue, 18 Sep 2018 04:56:19 +0900</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2018/09/18/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2018/09/18/welcome-to-jekyll.html</guid>
+        <link>https://darkwebsy.github.io/blog/jekyll/update/2018/09/18/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">https://darkwebsy.github.io/blog/jekyll/update/2018/09/18/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>

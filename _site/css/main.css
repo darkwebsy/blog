@@ -455,3 +455,6 @@ pre {
     color: #008080; }
   .highlight .il {
     color: #099; }
+
+article p {
+  margin: 40px 0 40px 0; }

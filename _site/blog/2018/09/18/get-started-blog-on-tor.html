@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja" >
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tor(ディープウェブ/ダークウェブ)にブログを作成する方法</title>
+  <meta name="description" content="ハロー皆さん。スカーレットです。">
+  <meta name="keywords"  content="ダークウェブ,ディープウェブ,tor,ブログ" />
+  <meta name="robots" content="index,follow"> 
+
+  <link rel="stylesheet" href="/blog/css/main.css">
+  <link rel="canonical" href="https://darkwebsy.github.io/blog/blog/2018/09/18/get-started-blog-on-tor.html">
+  <link rel="alternate" type="application/rss+xml" title="S.Y ダークウェブ ブログ" href="https://darkwebsy.github.io/blog/feed.xml">
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/blog/">S.Y ダークウェブ ブログ</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/blog/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Tor(ディープウェブ/ダークウェブ)にブログを作成する方法</h1>
+    <p class="post-meta"><time datetime="2018-09-18T09:00:00+09:00" itemprop="datePublished">Sep 18, 2018</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>ハロー皆さん。スカーレットです。</p>
+
+<p>今回は皆さん知りたいだろうなーっていう、Torにブログとかウェブサイトを作成する方法を教えてあげたいと思います。</p>
+
+<p>今この記事が書かれているこのサイトも、おそらくですが！今回ご紹介するやり方で作成されたものになっているはずです。ので！ご参照頂ければと思いますー。</p>
+
+<h2>導入 セキュリティと匿名性の問題</h2>
+
+<p>今回紹介する方法では、環境として、</p>
+
+<ul>
+<li>ubuntu 18.04</li>
+<li>nginx</li>
+<li>jekyll</li>
+</ul>
+
+<p>をメインとして使っています。</p>
+
+<p>何故この構成なのかというと、簡単だからです。それだけです。セキュリティ的にも、問題ありません。</p>
+
+<h3>なぜubuntuなのか</h3>
+
+<p>簡単だからです。</p>
+
+<p>本音を言うと、一番安全なのはwhonixです。続いてdebianです。</p>
+
+<p>ubuntuはインストールも簡単だし、情報も多いし、そもそもHTMLページ見せるくらいだったらあんま問題ないです。気にしなくて👍</p>
+
+<h3>なぜnginxなのか</h3>
+
+<p>セキュリティとかハッキング攻撃に強いからです。
+apacheじゃなくてnginxにしましょうね。</p>
+
+<h3>なぜjekyllなのか</h3>
+
+<p>jekyllとは、静的HTMLサイトを生成するRubyのライブラリです。</p>
+
+<p>なぜWordPressではなく、jekyllなのか。ですが、</p>
+
+<p>単純にWordPressは脆弱性問題が多いからです。</p>
+
+<p>それに、動的サイトがセキュリティリスクがあるため、オススメできませんのです。</p>
+
+<p>HTMLページをいちいちアップロードしていく方法が一番なんですね。</p>
+
+<h3>なぜVPSや有料のサーバーを使わないのか</h3>
+
+<p>Torのhidden serviceをホスティングしてくれるサービスはたくさんあり、それを利用しているサービスも多いですね。
+しかしそれを利用しない理由は何でしょうか。</p>
+
+<ul>
+<li>お金がかかる</li>
+<li>支払いに利用するビットコインに関する幅広い知識が必要</li>
+<li>ホスティングしているサーバーがハッキングされると自分のサイトも被害を受ける</li>
+<li>そもそも大手のホスティングサービスが潰れたりしていて信用に値するサイトが少ない</li>
+</ul>
+
+<p>といったところです。</p>
+
+<h2>本題 Ubuntu 18.04 nginx jekyllでTorにブログを作成する方法</h2>
+
+<p>まずは。ubuntu 18.04をvirtualboxにインストールしましょうね。これは調べてね。</p>
+
+<p>SSHで作業していくから、<code>sudo apt install openssh-server</code>しとこうね。</p>
+
+<p><a href="https://thecloud.org.uk/create-tor-hidden-service-website-ubuntu-linux/">Create a Tor Website on Ubuntu – TheCloud.org.uk</a>がとてもわかり易かったよ！この記事を簡潔にご紹介するね。</p>
+
+<p>ウェブサーバーnginxの設定をするよ！</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># インストール</span>
+sudo apt install nginx
+
+<span class="c"># ファイルをまるごと書き換え！</span>
+cat &gt; /etc/nginx/sites-available/default
+server <span class="o">{</span>
+       listen 127.0.0.1:8080 default_server;
+       server_name localhost;
+       root /usr/share/nginx/html;
+       index index.html index.htm;
+       location / <span class="o">{</span>
+               allow 127.0.0.1;
+               deny all;
+       <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div>
+<p><code>lsb_release -a</code>でubuntuのバージョンを確認しよう。</p>
+
+<blockquote>
+<p>Then visit this link and select your Linux version and codename from the drop down menu.</p>
+</blockquote>
+
+<p>次に、<a href="https://www.torproject.org/docs/debian.html.en#ubuntu">Tor Project: Debian/Ubuntu Instructions</a>へ行って、バージョンごとのTorのインストール方法を確認してみよう。</p>
+
+<p>今回は、Ubuntu 18.04の場合を紹介するよ。</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># ソースファイルに追記！</span>
+cat &gt;&gt; /etc/apt/sources
+deb https://deb.torproject.org/torproject.org bionic main
+deb-src https://deb.torproject.org/torproject.org bionic main
+
+<span class="c"># rootで作業するよ</span>
+sudo su -
+gpg2 --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+gpg2 --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+
+apt update
+apt install tor deb.torproject.org-keyring
+
+</code></pre></div>
+<p>torrcに追記</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">sudo nano /etc/tor/torrc
+
+HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServicePort 80 127.0.0.1:8080
+</code></pre></div>
+<p>最後！</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">sudo service nginx restart
+sudo service tor restart
+
+cat /var/lib/tor/hidden_service/hostname
+</code></pre></div>
+<p>ドメイン名が出力されましたか？これをTorに入力してページを見てみましょう！</p>
+
+<p>映ったよね！</p>
+
+<p>次、jekyllいきます。</p>
+
+<p>まずjekyllのブログ作ります。
+jekyllはまた他の、開発用の仮想環境で構築しています。こっちのほうがやりやすいからね。</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">sudo apt install jekyll
+<span class="nb">cd</span> ~/tmp
+jekyll new www
+<span class="nb">cd </span>www
+jekyll build
+</code></pre></div>
+<p>デプロイしますね。
+開発環境から、本番環境の先ほどnginxの設定をしたubuntuにファイルをコピーします。</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">rsync --rsync-path<span class="o">=</span><span class="s2">"sudo rsync"</span> -av -e <span class="s1">'ssh'</span> _site/ user@192.168.99.100:/usr/share/nginx/html
+</code></pre></div>
+<p>では先程のonionドメインのページを更新してみましょう。</p>
+
+<p>nginxのページから、welcomeページに変わったかな？</p>
+
+<p>おめでとう👍これで君もダークウェブブロガーだよ。</p>
+
+<h2>まとめ</h2>
+
+<p>今回はダークウェブにブログを作る方法を紹介しました。</p>
+
+<p>ぜひこの記事を活用してくれれば嬉しく思います。では！！</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">S.Y ダークウェブ ブログ</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>S.Y ダークウェブ ブログ</li>
+          <li>クリアネット: <a href="https://darkwebsy.github.io/blog/">https://darkwebsy.github.io/blog/</a> </li>
+          <li>ダークウェブ: <a href="http://35acoonpgrwqqc36.onion">http://35acoonpgrwqqc36.onion</a> </li>
+          <!-- <li><a href="mailto:your-email@domain.com">your-email@domain.com</a></li> -->
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <!-- <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jekyll"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jekyll</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/jekyllrb"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">jekyllrb</span></a>
+
+          </li>
+          
+        </ul> -->
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>S.Yが運営するダークウェブ・ディープウェブ情報ブログ。 Torでアクセス可能なダークウェブ全般のことについて書いていきます。
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
